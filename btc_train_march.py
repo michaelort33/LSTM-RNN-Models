@@ -1,15 +1,12 @@
 from keras.models import Sequential
 from keras.layers import Dense, LSTM, Dropout, Flatten, Activation
 from keras.callbacks import EarlyStopping
-
+from keras.models import load_model
 import numpy as np
-from datetime import datetime, timedelta
-from tqdm import tqdm
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_absolute_error
 import matplotlib.pyplot as plt
 import pandas as pd
-from keras.models import load_model
 
 
 # reading the data with pandas
@@ -44,22 +41,26 @@ def create_features(df):
 
     for i in list(range(1,4)):
         df['price_shift'+str(i)] = df.price.shift(i)
-        df['vol_shift'+str(i)] = df.volume.shift(i)
+        #df['vol_shift'+str(i)] = df.volume.shift(i)
 
     # Get rolling means and std of 5, 20, 100, 200 for volume and price
 
-    for i in [5, 20, 100, 200]:
-        df['price_rolling_mean_'+ str(i)] = df.price.rolling(window=i).mean()
-        df['price_rolling_std_' + str(i)] = df.price.rolling(window=i).std()
+    #for i in [5, 20, 100, 200]:
+       # df['price_rolling_mean_'+ str(i)] = df.price.rolling(window=i).mean()
+        #df['price_rolling_std_' + str(i)] = df.price.rolling(window=i).std()
 
-        df['vol_rolling_mean_'+str(i)] = df.volume.rolling(window=i).mean()
-        df['vol_rolling_std_' + str(i)] = df.volume.rolling(window=i).std()
+        #df['vol_rolling_mean_'+str(i)] = df.volume.rolling(window=i).mean()
+        #df['vol_rolling_std_' + str(i)] = df.volume.rolling(window=i).std()
 
         # Remove the NAs this introduces in the first 200 rows
 
-        df = df.dropna()
+    df = df.dropna()
 
-        return df
+    #drop volume
+
+    df = df.drop(['volume'], axis=1)
+
+    return df
 
 
 # Create the features
@@ -109,29 +110,37 @@ model.compile(loss="mean_squared_error", optimizer="adam")
 
 early_stop = EarlyStopping(monitor='loss', patience=2, verbose=1)
 
-history = model.fit(train_x, train_y, epochs=100, batch_size=1, verbose=1, shuffle=False, callbacks=[early_stop])
+history = model.fit(train_x, train_y, epochs=5, batch_size=1, verbose=1, shuffle=False, callbacks=[early_stop])
 
-model.save('btc_predictor.h5')
+model.save('btc_predictor_5.h5')
 
-model = load_model('btc_predictor.h5')
+pd.read_csv('test')
+
+model = load_model('btc_predictor_5.h5')
 
 # Predict the test
+test_y = test.iloc[:, 0]
+
 test = scaler.transform(test)
 
 test_x = test[:, 1:]
 test_x = test_x.reshape(test_x.shape[0], test_x.shape[1], 1)
 
-test_y = test[:, 0]
-
-
+# predictions
 preds = model.predict(test_x)
 
+# reshape x to 2d so i can inverse transform
 test_x = test_x.reshape(test_x.shape[0], test_x.shape[1])
 
+# combine predictions with test_x
 predictions = np.hstack((preds, test_x))
 
+# inverse predictions back to regular
 predictions = scaler.inverse_transform(predictions)
 
+# slice out of the matrix to get final predictions
 final_preds = predictions[:, 0]
 
-plt.plot(range(len(final_preds)), final_preds)
+# plot predictions and actual values
+plt.plot(list(range(len(final_preds))), final_preds)
+plt.plot(list(range(len(final_preds))), test_y)
