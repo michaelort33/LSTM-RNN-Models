@@ -12,6 +12,10 @@ import pandas as pd
 # reading the data with pandas
 data = pd.read_csv('../input/march_april_btc_minute.csv')
 
+# Use subset of data (my little gpu can't do much)
+cut = round(len(data)/10)
+data = data.iloc[:cut, :]
+
 # convert to date type
 data.Date = data.Date.astype('datetime64[ns]')
 data = data.set_index('Date', drop=True)
@@ -110,24 +114,31 @@ model.compile(loss="mean_squared_error", optimizer="adam")
 
 early_stop = EarlyStopping(monitor='loss', patience=2, verbose=1)
 
-history = model.fit(train_x, train_y, epochs=5, batch_size=1, verbose=1, shuffle=False, callbacks=[early_stop])
+history = model.fit(train_x, train_y, epochs=20, batch_size=1, verbose=1, shuffle=False, callbacks=[early_stop])
 
 model.save('btc_predictor_5.h5')
-
-pd.read_csv('test')
 
 model = load_model('btc_predictor_5.h5')
 
 # Predict the test
 test_y = test.iloc[:, 0]
 
+scaler = MinMaxScaler(feature_range=(-1, 1))
+scaler.fit(test)
 test = scaler.transform(test)
+
+# get y
+test_y_sc = test[:, 0]
+
 
 test_x = test[:, 1:]
 test_x = test_x.reshape(test_x.shape[0], test_x.shape[1], 1)
 
 # predictions
 preds = model.predict(test_x)
+
+lstm_test_mse = model.evaluate(test_x, test_y_sc)
+print('LSTM: %f'%lstm_test_mse)
 
 # reshape x to 2d so i can inverse transform
 test_x = test_x.reshape(test_x.shape[0], test_x.shape[1])
@@ -144,3 +155,5 @@ final_preds = predictions[:, 0]
 # plot predictions and actual values
 plt.plot(list(range(len(final_preds))), final_preds)
 plt.plot(list(range(len(final_preds))), test_y)
+
+plt.legend(['predictions', 'actual'])
