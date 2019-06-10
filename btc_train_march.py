@@ -2,35 +2,38 @@ from keras.models import Sequential
 from keras.layers import Dense, LSTM
 from keras.callbacks import EarlyStopping
 from keras.models import load_model
+from keras.layers import Flatten
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
+
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import mean_absolute_error
+from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import pandas as pd
+import math
 
 # reading the data with pandas
 data = pd.read_csv('../input/march_april_btc_minute.csv')
 
 
-def read(df, keep=1):
-    # Use subset of data (my little gpu can't do much)
-    cut = round(len(df) / keep)
-    df = df.iloc[8*cut:9*cut, :]
-
+def read(df):
     # convert to date type
     df.Date = df.Date.astype('datetime64[ns]')
 
     # Use Date column as index
     df = df.set_index('Date', drop=True)
 
+    # Use the price at the end of every hour
+
     return df
 
 
-data = read(data, keep=10)
+data = read(data)
 
 
 def plot_2_y(x, y1, y2, df):
-    fig, host = plt.subplots()
+    fig, host = plt.subplots(num=1)
     fig.subplots_adjust(right=0.75)
     plt.xticks(rotation=60)
     par1 = host.twinx()
@@ -52,164 +55,173 @@ plot_2_y('Date', 'price', 'volume', data)
 
 
 def create_features(df):
-    # Feature engineering:
-    # take the last three minutes as inputs for volume and price
+    chunk_size = 60
+    num_chunks = math.floor(len(df) / chunk_size)
+
+    df_features = pd.DataFrame(columns=['mean', 'std', 'slope', 'max_change', 'price'])
+
+    for i in list(range(0, num_chunks)):
+        chunk_indices = list(range(i * chunk_size, (i * chunk_size) + chunk_size))
+        chunk = df.iloc[chunk_indices, :]
+
+        x = list(range(0, chunk_size))
+        lin_model = LinearRegression().fit(np.array(x).reshape(-1, 1), chunk.price.values)
+        df_features.loc[i, 'slope'] = lin_model.coef_[0]
+        df_features.loc[i, 'mean'] = chunk.price.mean()
+        df_features.loc[i, 'std'] = chunk.price.std()
+        df_features.loc[i, 'max_change'] = chunk.price.max() - chunk.price.min()
+
+    df_features.loc[:, 'price'] = df.price[::60].values
+
     for i in list(range(1, 4)):
-        df['price_shift' + str(i)] = df.price.shift(i)
+        df_shifted = df_features.loc[:, ['price']].shift(i)
+        df_shifted.columns = df_shifted.columns.values+str(i)
+        df_features = pd.concat([df_features, df_shifted], axis=1)
+
+    # remove NAs created by the shift
+    df = df_features.dropna()
 
     return df
 
 
-# Create the features
+# Create features
 data = create_features(data)
 
 
-def clean(df):
-    # Remove NA
-    df = df.dropna()
-
-    # drop volume
-    df = df.drop(['volume'], axis=1)
-
-    return df
-
-
-data = clean(data)
-
-
-def split_train_test(df, split=0.8):
+# split train and test and x and y
+def split_train_test(df, split=0.7):
     index = round(split * len(df))
     df_train = df.iloc[:index, :]
     df_test = df.iloc[index:, :]
 
-    return df_train, df_test
+    df_train_y = df_train.price
+    df_train_x = df_train.loc[:, df_train.columns != 'price']
+
+    df_test_y = df_test.price
+    df_test_x = df_test.loc[:, df_test.columns != 'price']
+
+    return df_train_x, df_train_y, df_test_x, df_test_y
 
 
 # split the test and train
-train, test = split_train_test(data)
+train_x, train_y, test_x, test_y = split_train_test(data)
 
 
-# plt train and test
-plt.figure(1)
-plt.subplot(111)
-plt.xticks(rotation=60)
-plt.plot(train.price)
-plt.plot(test.price)
-plt.legend(['Train', 'Test'])
-plt.xlabel("Date")
-plt.ylabel("Price")
-plt.show()
+def plot_2_x(my_train_y, my_test_y):
+    # plt train and test
+    plt.figure(1)
+    plt.subplot(111)
+    plt.xticks(rotation=60)
+    plt.plot(my_train_y)
+    plt.plot(my_test_y)
+    plt.legend(['Train', 'Test'])
+    plt.xlabel("Date")
+    plt.ylabel("Price")
+    plt.show()
 
 
-def scaler(df1, df2):
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    scaler.fit(df1)
-    scaled_test = scaler.transform(df2)
+plot_2_x(train_y, test_y)
 
-    return scaled_test
+
+def custom_scaler(df_fit, df_scale):
+    my_scaler = MinMaxScaler()
+
+    # fit to train
+    my_scaler.fit(df_fit)
+
+    # transform train or test
+    my_scaled = my_scaler.transform(df_scale)
+
+    return my_scaled
 
 
 # Scale train to [0,1]
-train = scaler(train, train)
+train_x_sc = custom_scaler(train_x, train_x)
+train_y_sc = custom_scaler(train_y.values.reshape(-1, 1), train_y.values.reshape(-1, 1))
+
+# Reshape train to 3d for neural net.
+train_x_sc_neural = train_x_sc.reshape(train_x_sc.shape[0], train_x_sc.shape[1], 1)
 
 
-def prep_neural_data_format(df):
-
-    # split train to x and y
-    train_x = df[:, 1:]
-    train_y = df[:, 0]
-
-    # reshape to 3d for lstm input
-    train_x = train_x.reshape(train_x.shape[0], train_x.shape[1], 1)
-
-    return train_x, train_y
-
-
-neural_x, neural_y = prep_neural_data_format(train)
-
-
-def train_model(train_x, train_y):
-
+def train_model(x, y):
     # Create LSTM model
-    model = Sequential()
-    model.add(LSTM(10, input_shape=(train_x.shape[1], 1), activation="relu", kernel_initializer='lecun_uniform',
-                   return_sequences=False))
-    model.add(Dense(1))
-    model.compile(loss="mean_squared_error", optimizer="adam")
+    my_model = Sequential()
+    my_model.add(LSTM(512, input_shape=(x.shape[1], x.shape[2]), activation="relu", kernel_initializer='lecun_uniform',
+                      return_sequences=False))
+    my_model.add(Dense(1))
+    my_model.compile(loss="mean_squared_error", optimizer="adam")
     early_stop = EarlyStopping(monitor='loss', patience=20, verbose=1)
-    model.fit(train_x, train_y, epochs=20, batch_size=1, verbose=1, shuffle=False, callbacks=[early_stop])
+    my_model.fit(x, y, epochs=100, batch_size=1, verbose=1, shuffle=False, callbacks=[early_stop])
     # Save the trained model to file
-    model.save('btc_predictor_5.h5')
+    my_model.save('btc_predictor_5.h5')
 
 
 # train the model
-train_model(neural_x, neural_y)
+train_model(train_x_sc_neural, train_y_sc)
 
 # Load trained model from file
-model_lstm = load_model('btc_predictor_5.h5')
+model = load_model('btc_predictor_5.h5')
 
-test_sc = scaler(test, test)
+# scale test data
+test_x_sc = custom_scaler(train_x, test_x)
 
-
-def prep_test_data(df):
-
-    # Select x matrix
-    df_x = df[:, 1:]
-    df_y = df[:, 0]
-
-    # Reshape for prediction
-    df_x = df_x.reshape(df_x.shape[0], df_x.shape[1], 1)
-
-    return df_x, df_y
+# reshape test data to 3D for prediction
+test_x_sc_neural = test_x_sc.reshape(test_x_sc.shape[0], test_x_sc.shape[1], 1)
 
 
-test_x_sc, test_y_sc = prep_test_data(test_sc)
-
-# Measure error
-lstm_test_mse = model_lstm.evaluate(test_x_sc, test_y_sc)
-print('LSTM: %f' % lstm_test_mse)
-
-
-# predictions
-predictions_sc = model_lstm.predict(test_x_sc)
-
-# reshape x to 2d so i can inverse transform
-test_x_sc = test_x_sc.reshape(test_x_sc.shape[0], test_x_sc.shape[1])
-
-# combine predictions with test_x
-prediction_matrix_sc = np.hstack((predictions_sc, test_x_sc))
-
-
-# inverse predictions back to
+# inverse scale
 def inverse_scale(df1, df2):
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    scaler.fit(df1)
-    unscaled_predictions = scaler.inverse_transform(df2)
+    my_scaler = MinMaxScaler()
+    my_scaler.fit(df1)
+    unscaled_predictions = my_scaler.inverse_transform(df2)
 
     return unscaled_predictions
 
 
-predictions = inverse_scale(test, prediction_matrix_sc)
+def get_predictions(my_test_x_sc, my_train_y, my_model):
+    # predictions
+    predictions_sc = my_model.predict(my_test_x_sc)
 
-# slice out of the matrix to get final predictions
-final_predictions = predictions[:, 0]
+    # invert scaled predictions
+    my_predictions = inverse_scale(my_train_y.values.reshape(-1, 1), predictions_sc)
+
+    return my_predictions
+
+
+predictions_train = get_predictions(train_x_sc_neural, train_y, model)
+predictions_test = get_predictions(test_x_sc_neural, train_y, model)
+
 
 # plot predictions and actual values
-plt.cla()
-plt.figure(2)
-plt.plot(final_predictions)
-plt.plot(test.price.values)
-plt.legend(['predictions', 'actual'])
+def plot_predictions(my_predictions, actual, fig_num):
+    plt.figure(fig_num)
+    plt.plot(my_predictions)
+    plt.plot(actual)
+    plt.legend(['predictions', 'actual'])
+    plt.show()
+
+
+# plot of fit on training data
+plot_predictions(predictions_train, train_y.values, 2)
+
+# plot of fit on test data
+plot_predictions(predictions_test, test_y.values, 3)
 
 # Print the MSE of the LSTM model
-print(((final_predictions[1:] - test.price.values)**2).mean(axis=0))
+print(((predictions_test - test_y.values) ** 2).mean())
 
 # Now compare this model to a baseline of a rolling average of 3 previous minutes
-data['price_rolling'] = data.price.rolling(window=3).mean().shift()
+data['price_rolling'] = data.price.rolling(3).mean().shift()
 data = data.dropna()
-train, test = split_train_test(data)
+plot_predictions(data.price_rolling, data.price, 4)
 
-plt.figure(3)
-plt.plot(test.price)
-plt.plot(test.price_rolling)
-print(((test.price_rolling.values - test.price.values)**2).mean(axis=0))
+# print the mse of the rolling mean model
+print(((data.price_rolling.values - data.price.values) ** 2).mean())
+
+# Check how often the direction was correct
+change = test_y.values - test_x.price_step1
+pred_change = predictions_test - np.roll(predictions_test, 1)
+
+change = change < 0
+pred_change = pred_change < 0
+(change.values.reshape(-1, 1) == pred_change).sum() / pred_change.shape[0]

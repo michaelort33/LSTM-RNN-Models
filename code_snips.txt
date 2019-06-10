@@ -1,0 +1,6 @@
+Rolling mean
+# df['price_rolling_mean_'+ str(i)] = df.price.rolling(window=i).mean()
+
+Imports to keras
+
+Dropout, Flatten, Activation
