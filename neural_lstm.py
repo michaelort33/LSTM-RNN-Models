@@ -14,6 +14,7 @@ from keras.models import load_model
 import predictor_lstm
 import my_plotter
 import read_data
+import my_backtester
 
 train_data = read_data.train_data
 test_data = read_data.test_data
@@ -22,13 +23,6 @@ test_data = read_data.test_data
 lstm_train_x = predictor_lstm.create_features(train_data)
 
 lstm_train_y = predictor_lstm.create_y(train_data.price)
-
-lstm_test_x = predictor_lstm.create_features(test_data)
-
-lstm_test_y = predictor_lstm.create_y(test_data.price)
-
-# plot train and test y values
-# plot_2_x(lstm_train_y, lstm_test_y)
 
 
 def custom_scaler(df_fit, df_scale):
@@ -67,24 +61,63 @@ def train_model(x, y):
 # train the model
 # train_model(lstm_train_x_sc_neural, lstm_train_y_sc)
 
+# test data
+lstm_test_x = predictor_lstm.create_features(test_data)
+lstm_test_y = predictor_lstm.create_y(test_data.price)
+
+model = load_model('../trainer/btc_predictor_5.h5')
+
+
+# predict the next hour's price
+def get_predictions(train_x, test_x, train_y, model=model):
+    # scale test data
+    test_x_sc = custom_scaler(train_x, test_x)
+
+    # reshape test data to 3D for prediction
+    test_x_sc_neural = test_x_sc.reshape(test_x_sc.shape[0], test_x_sc.shape[1], 1)
+
+    # inverse scale
+    def inverse_scale(df1, df2):
+        my_scaler = MinMaxScaler()
+        my_scaler.fit(df1)
+        unscaled_predictions = my_scaler.inverse_transform(df2)
+
+        return unscaled_predictions
+
+    # predictions
+    predictions_sc = model.predict(test_x_sc_neural)
+
+    # invert scaled predictions
+    my_predictions = inverse_scale(train_y.values.reshape(-1, 1), predictions_sc)
+
+    return my_predictions
+
 
 def get_predicted_comparisons(lstm_train_x, lstm_test_x, lstm_train_y, lstm_test_y):
+    predictions_train = get_predictions(lstm_train_x, lstm_train_x, lstm_train_y)
 
-    predictions_train = predictor_lstm.get_predictions(lstm_train_x, lstm_train_x, lstm_train_y)
-
-    predictions_test = predictor_lstm.get_predictions(lstm_train_x, lstm_test_x, lstm_train_y)
+    predictions_test = get_predictions(lstm_train_x, lstm_test_x, lstm_train_y)
 
     change = (lstm_test_y.values - lstm_test_x.price0)[1:]
 
-    change_percent = change/lstm_test_x.price0[1:]
+    change_percent = change / lstm_test_x.price0[1:]
 
     pred_change = (predictions_test - np.roll(predictions_test, 1))[1:]
 
-    pred_change_percent = pred_change/np.roll(predictions_test, 1)[1:]
+    pred_change_percent = pred_change / np.roll(predictions_test, 1)[1:]
+
+    buy_sell = np.array([])
+    for i in pred_change_percent:
+        if i > 0.01:
+            buy_sell = np.append(buy_sell, 1)
+        elif i < -0.01:
+            buy_sell = np.append(buy_sell, -1)
+        else:
+            buy_sell = np.append(buy_sell, 0)
 
     predicted_values = {'predictions_train': predictions_train, 'predictions_test': predictions_test,
                         'change': change, 'change_percent': change_percent, 'pred_change': pred_change,
-                        'pred_change_percent': pred_change_percent}
+                        'pred_change_percent': pred_change_percent, 'buy_sell': buy_sell}
 
     return predicted_values
 
@@ -93,7 +126,6 @@ predicted_values = get_predicted_comparisons(lstm_train_x, lstm_test_x, lstm_tra
 
 
 def analyze_fit(lstm_train_y, lstm_test_y):
-
     predictions_train = predicted_values['predictions_train']
     predictions_test = predicted_values['predictions_test']
     change = predicted_values['change']
@@ -126,7 +158,6 @@ analyze_fit(lstm_train_y, lstm_test_y)
 
 
 def model_summary(lstm_test_y):
-
     predictions_test = predicted_values['predictions_test']
     change = predicted_values['change']
     pred_change = predicted_values['pred_change']
@@ -141,7 +172,8 @@ def model_summary(lstm_test_y):
     pred_change_dir = pred_change < 0
 
     # direction rate
-    summary_statistics['percent_direction'] = (change_dir.values.reshape(-1, 1) == pred_change_dir).sum() / pred_change_dir.shape[0]
+    summary_statistics['percent_direction'] = (change_dir.values.reshape(-1, 1) == pred_change_dir).sum() / \
+                                              pred_change_dir.shape[0]
 
     # std of errors
     summary_statistics['std_error'] = (pred_change.reshape(-1, 1) - change.values.reshape(-1, 1)).std()
@@ -154,49 +186,9 @@ def model_summary(lstm_test_y):
 
 summary_statistics = model_summary(lstm_test_y)
 
+actual_prices_rolled = lstm_test_y.shift(1).dropna()
 
-def back_test(lstm_test_y):
+truncated_predictions = predicted_values['predictions_test'][:-1]
 
-    # portfolio change
-    percent_change = predicted_values['pred_change_percent']
-    portfolio = []
-    sale = []
-    buy = []
-    cash = 1000
-    rolled_y = lstm_test_y[:-1]
-    btc = 0
-    fee = 0.998
-    counter = 0
-    bought_times = []
-    sale_times = []
-
-    for i, k in zip(percent_change, rolled_y):
-
-        if i > 0.002 and cash > 0:
-            btc = (cash*fee)/k
-            cash = 0
-            buy.append(k)
-            bought_times.append(counter)
-
-        if i < -0.002 and cash == 0:
-            cash = (btc*k) * fee
-            btc = 0
-            sale.append(k)
-            sale_times.append(counter)
-
-        portfolio.append((btc * k) + cash)
-
-        counter += 1
-
-    fig, axs = plt.subplots(2, 1)
-
-    axs[0].plot(portfolio)
-    axs[0].set_title('portfolio_value')
-    axs[1].scatter(bought_times, buy, color='blue')
-    axs[1].scatter(sale_times, sale, color='red')
-    axs[1].plot(rolled_y.values)
-    axs[1].legend(['price', 'buy', 'sell'])
-    plt.show()
-
-
-back_test(lstm_test_y)
+trading_history = my_backtester.back_test_bins(predicted_values['buy_sell'], actual_prices_rolled.values,
+                                                    truncated_predictions)

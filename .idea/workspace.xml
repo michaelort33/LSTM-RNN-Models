@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e7ade727-fd30-4a6a-85da-189242a88303" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/michael.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/btc_train_jan_june.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my_backtester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my_plotter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/neural_classifier.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/neural_lstm.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/predictor_lstm.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/read_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/btc_predictor_5.h5" beforeDir="false" afterPath="$PROJECT_DIR$/btc_predictor_5.h5" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/btc_train_march.py" beforeDir="false" afterPath="$PROJECT_DIR$/btc_train_march.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code_snips.txt" beforeDir="false" afterPath="$PROJECT_DIR$/code_snips.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/btc_train_jan_june.py" beforeDir="false" afterPath="$PROJECT_DIR$/btc_train_jan_june.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,14 +31,68 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/btc_train_jan_june.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neural_lstm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="107" column="20" selection-start-line="107" selection-start-column="20" selection-end-line="107" selection-end-column="20" />
+            <state relative-caret-position="364">
+              <caret line="192" column="15" selection-start-line="192" selection-end-line="192" selection-end-column="15" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/neural_classifier.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="358">
+              <caret line="128" column="18" selection-start-line="128" selection-start-column="18" selection-end-line="128" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/my_backtester.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="310">
+              <caret line="56" column="27" selection-start-line="56" selection-start-column="27" selection-end-line="56" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/predictor_lstm.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="8" column="13" lean-forward="true" selection-start-line="8" selection-end-line="9" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/read_data.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/my_plotter.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="21" lean-forward="true" selection-start-column="21" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -53,27 +108,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>reshape</find>
-      <find>.close</find>
-      <find>set_in</find>
-      <find>train[</find>
-      <find>dropn</find>
-      <find>test</find>
-      <find>minma</find>
-      <find>feature_r</find>
-      <find>StandardScaler</find>
-      <find>MinM</find>
-      <find>MinMaxScaler</find>
-      <find>scale</find>
-      <find>test_sc</find>
       <find>6000</find>
       <find>scaler</find>
       <find>figure</find>
       <find>model_lstm</find>
       <find>na</find>
       <find>comm</find>
-      <find>train_x</find>
       <find>df_train.price</find>
+      <find>roll</find>
+      <find>np.roll</find>
+      <find>price1</find>
+      <find>legend</find>
+      <find>plot_pre</find>
+      <find>pred_chnage</find>
+      <find>plot_2</find>
+      <find>data</find>
+      <find>lstm_data</find>
+      <find>train_x</find>
+      <find>train_y</find>
+      <find>test_x</find>
+      <find>test_y</find>
+      <find>pice</find>
+      <find>create_features</find>
+      <find>create_fe</find>
+      <find>remove last</find>
+      <find>classify_prof</find>
+      <find>train</find>
+      <find>custom_sc</find>
+      <find>model</find>
+      <find>sell</find>
+      <find>predictions_sc</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -86,7 +150,15 @@
         <option value="$PROJECT_DIR$/Analyze model.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/btc_train_march.py" />
+        <option value="$PROJECT_DIR$/compile_models.py" />
+        <option value="$PROJECT_DIR$/lstm.py" />
+        <option value="$PROJECT_DIR$/my_plotter.py" />
+        <option value="$PROJECT_DIR$/read_data.py" />
         <option value="$PROJECT_DIR$/btc_train_jan_june.py" />
+        <option value="$PROJECT_DIR$/predictor_lstm.py" />
+        <option value="$PROJECT_DIR$/neural_lstm.py" />
+        <option value="$PROJECT_DIR$/my_backtester.py" />
+        <option value="$PROJECT_DIR$/neural_classifier.py" />
       </list>
     </option>
   </component>
@@ -104,7 +176,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -125,6 +196,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -241,7 +313,14 @@
       <option name="project" value="LOCAL" />
       <updated>1554865748300</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="three lagging first successful test">
+      <created>1560146701610</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1560146701610</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView">
@@ -257,7 +336,7 @@
     <frame x="70" y="27" width="1850" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2732816" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27660754" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -270,7 +349,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.6619411" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50110865" side_tool="true" weight="0.33369684" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="10" sideWeight="0.49889135" visible="true" weight="0.28462377" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" sideWeight="0.49889135" visible="true" weight="0.4154853" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -312,6 +391,15 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../Deeper Signals/Tweets/personality_tweets_algorithm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="22" column="9" lean-forward="true" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compile_models.py" />
+    <entry file="file://$PROJECT_DIR$/lstm.py" />
     <entry file="file://$PROJECT_DIR$/btc_train_march.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2106">
@@ -322,17 +410,64 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Deeper Signals/Tweets/personality_tweets_algorithm.py">
+    <entry file="file://$PROJECT_DIR$/my_plotter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="22" column="9" lean-forward="true" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
+        <state>
+          <caret column="21" lean-forward="true" selection-start-column="21" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/read_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/btc_train_jan_june.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="107" column="20" selection-start-line="107" selection-start-column="20" selection-end-line="107" selection-end-column="20" />
+        <state relative-caret-position="496">
+          <caret line="202" selection-start-line="202" selection-end-line="202" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictor_lstm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="13" lean-forward="true" selection-start-line="8" selection-end-line="9" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/my_backtester.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="56" column="27" selection-start-line="56" selection-start-column="27" selection-end-line="56" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_lstm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="192" column="15" selection-start-line="192" selection-end-line="192" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_classifier.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="128" column="18" selection-start-line="128" selection-start-column="18" selection-end-line="128" selection-end-column="18" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
