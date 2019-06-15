@@ -22,7 +22,7 @@ data = read(data)
 start_train_range = '2018-01-01'
 end_train_range = '2018-05-01'
 start_test_range = '2018-01-01'
-end_test_range = '2018-01-06'
+end_test_range = '2018-05-06'
 
 
 def descriptive_stats(data, grouping_size=60):

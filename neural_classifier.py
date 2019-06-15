@@ -79,7 +79,7 @@ def train_model_1(x, y):
 
 def train_model_2(x, y):
     model = Sequential()
-    model.add(Dense(200, input_dim=120, activation='relu'))
+    model.add(Dense(120, input_dim=120, activation='relu'))
     model.add(Dense(3, activation='softmax'))
     # Compile model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
