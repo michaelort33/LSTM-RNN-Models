@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e7ade727-fd30-4a6a-85da-189242a88303" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/nerual_classifier2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/prep_data_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/btc_train_jan_june.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/btc_train_march.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_backtester.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_backtester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_classifier.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_lstm.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_lstm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/predictor_lstm.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/read_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/read_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/neural_lstm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="74" column="19" lean-forward="true" selection-start-line="74" selection-start-column="19" selection-end-line="74" selection-end-column="19" />
+            <state relative-caret-position="270">
+              <caret line="57" selection-start-line="57" selection-end-line="57" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -37,8 +28,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_classifier.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="736">
-              <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
+            <state relative-caret-position="376">
+              <caret line="141" lean-forward="true" selection-start-line="141" selection-end-line="141" />
               <folding>
                 <element signature="e#1#36#0" expanded="true" />
               </folding>
@@ -58,11 +49,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/prep_data_functions.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="144">
-              <caret line="8" column="27" lean-forward="true" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+              <caret line="8" column="51" lean-forward="true" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -74,7 +65,7 @@
         <entry file="file://$PROJECT_DIR$/read_data.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="432">
-              <caret line="24" column="29" lean-forward="true" selection-end-line="50" />
+              <caret line="24" column="25" selection-end-line="50" />
             </state>
           </provider>
         </entry>
@@ -99,7 +90,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>data</find>
       <find>lstm_data</find>
       <find>train_x</find>
       <find>train_y</find>
@@ -129,6 +119,7 @@
       <find>bins</find>
       <find>names =</find>
       <find>prep_x_and_y</find>
+      <find>test_data</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -148,9 +139,9 @@
         <option value="$PROJECT_DIR$/predictor_lstm.py" />
         <option value="$PROJECT_DIR$/prep_data_functions.py" />
         <option value="$PROJECT_DIR$/nerual_classifier2.py" />
-        <option value="$PROJECT_DIR$/read_data.py" />
         <option value="$PROJECT_DIR$/my_backtester.py" />
         <option value="$PROJECT_DIR$/neural_classifier.py" />
+        <option value="$PROJECT_DIR$/read_data.py" />
         <option value="$PROJECT_DIR$/neural_lstm.py" />
       </list>
     </option>
@@ -334,7 +325,21 @@
       <option name="project" value="LOCAL" />
       <updated>1560359442607</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added new classifier to neural classifier">
+      <created>1560632025980</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1560632025980</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added new classifier to neural classifier">
+      <created>1560635045167</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1560635045167</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -350,7 +355,7 @@
     <frame x="70" y="27" width="1850" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28325942" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28325942" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -363,7 +368,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.6619411" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50110865" side_tool="true" weight="0.33369684" />
-      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49889135" visible="true" weight="0.3827699" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" sideWeight="0.49889135" visible="true" weight="0.3827699" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -395,7 +400,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="three lagging first successful test" />
     <MESSAGE value="Split neural nets and back testers into separate files." />
-    <option name="LAST_COMMIT_MESSAGE" value="Split neural nets and back testers into separate files." />
+    <MESSAGE value="added new classifier to neural classifier" />
+    <option name="LAST_COMMIT_MESSAGE" value="added new classifier to neural classifier" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/plot_functions.py">
@@ -472,13 +478,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/read_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="24" column="29" lean-forward="true" selection-end-line="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/my_backtester.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-170">
@@ -489,35 +488,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/btc_traderminute_market_data.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prep_data_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="51" lean-forward="true" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/read_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="24" column="25" selection-end-line="50" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/neural_classifier.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="736">
-          <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
+        <state relative-caret-position="376">
+          <caret line="141" lean-forward="true" selection-start-line="141" selection-end-line="141" />
           <folding>
             <element signature="e#1#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/btc_traderminute_market_data.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/neural_lstm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="74" column="19" lean-forward="true" selection-start-line="74" selection-start-column="19" selection-end-line="74" selection-end-column="19" />
+        <state relative-caret-position="270">
+          <caret line="57" selection-start-line="57" selection-end-line="57" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prep_data_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="27" lean-forward="true" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>

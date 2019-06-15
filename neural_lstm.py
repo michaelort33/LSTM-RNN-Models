@@ -55,7 +55,7 @@ def train_model(x, y):
 
 
 # train the model
-# train_model(lstm_train_x_sc_neural, lstm_train_y_sc)
+train_model(lstm_train_x_sc_neural, lstm_train_y_sc)
 
 # test data
 lstm_test_x = prep_data_functions.create_features(test_data, grouping_size=20, shifts=5)
