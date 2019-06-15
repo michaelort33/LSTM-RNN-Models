@@ -5,14 +5,10 @@ from keras.callbacks import EarlyStopping
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
-import pandas as pd
-
-import math
-
 from keras.models import load_model
 
-import predictor_lstm
-import my_plotter
+# import my files
+import prep_data_functions
 import read_data
 import my_backtester
 
@@ -20,9 +16,9 @@ train_data = read_data.train_data
 test_data = read_data.test_data
 
 # Create lstm features
-lstm_train_x = predictor_lstm.create_features(train_data)
+lstm_train_x = prep_data_functions.create_features(train_data, grouping_size=20, shifts=5)
 
-lstm_train_y = predictor_lstm.create_y(train_data.price)
+lstm_train_y = prep_data_functions.create_y(train_data.price, grouping_size=20, shifts=5)
 
 
 def custom_scaler(df_fit, df_scale):
@@ -62,8 +58,8 @@ def train_model(x, y):
 # train_model(lstm_train_x_sc_neural, lstm_train_y_sc)
 
 # test data
-lstm_test_x = predictor_lstm.create_features(test_data)
-lstm_test_y = predictor_lstm.create_y(test_data.price)
+lstm_test_x = prep_data_functions.create_features(test_data, grouping_size=20, shifts=5)
+lstm_test_y = prep_data_functions.create_y(test_data.price, grouping_size=20, shifts=5)
 
 model = load_model('../trainer/btc_predictor_5.h5')
 
@@ -93,7 +89,7 @@ def get_predictions(train_x, test_x, train_y, model=model):
     return my_predictions
 
 
-def get_predicted_comparisons(lstm_train_x, lstm_test_x, lstm_train_y, lstm_test_y):
+def get_predicted_comparisons(lstm_train_x, lstm_test_x, lstm_train_y, lstm_test_y, fee):
     predictions_train = get_predictions(lstm_train_x, lstm_train_x, lstm_train_y)
 
     predictions_test = get_predictions(lstm_train_x, lstm_test_x, lstm_train_y)
@@ -108,9 +104,9 @@ def get_predicted_comparisons(lstm_train_x, lstm_test_x, lstm_train_y, lstm_test
 
     buy_sell = np.array([])
     for i in pred_change_percent:
-        if i > 0.01:
+        if i > fee:
             buy_sell = np.append(buy_sell, 1)
-        elif i < -0.01:
+        elif i < -fee:
             buy_sell = np.append(buy_sell, -1)
         else:
             buy_sell = np.append(buy_sell, 0)
@@ -122,7 +118,7 @@ def get_predicted_comparisons(lstm_train_x, lstm_test_x, lstm_train_y, lstm_test
     return predicted_values
 
 
-predicted_values = get_predicted_comparisons(lstm_train_x, lstm_test_x, lstm_train_y, lstm_test_y)
+predicted_values = get_predicted_comparisons(lstm_train_x, lstm_test_x, lstm_train_y, lstm_test_y, 0.02)
 
 
 def analyze_fit(lstm_train_y, lstm_test_y):
@@ -162,6 +158,7 @@ def model_summary(lstm_test_y):
     change = predicted_values['change']
     pred_change = predicted_values['pred_change']
 
+    # Create dictionary of summary statistics of the fit
     summary_statistics = {}
 
     summary_statistics['MSE'] = ((predictions_test - lstm_test_y.values) ** 2).mean()
@@ -191,4 +188,4 @@ actual_prices_rolled = lstm_test_y.shift(1).dropna()
 truncated_predictions = predicted_values['predictions_test'][:-1]
 
 trading_history = my_backtester.back_test_bins(predicted_values['buy_sell'], actual_prices_rolled.values,
-                                                    truncated_predictions)
+                                               truncated_predictions)

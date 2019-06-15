@@ -9,25 +9,22 @@ def back_test_bins(predictions, actual, predicted_values=None):
     btc = 0
     fee = 0.998
     counter = 0
-    portfolio = 1000
 
     for i, k in zip(predictions, actual):
         trading_history.loc[counter, 'cash'] = cash
-        trading_history.loc[counter, 'portfolio'] = portfolio
+        trading_history.loc[counter, 'portfolio'] = btc * k + cash
 
         if i == 1 and cash > 0:
             trading_history.loc[counter, 'buy'] = k
             trading_history.loc[counter, 'fee'] = cash*(1-fee)
             btc = (cash*fee)/k
             cash = 0
-            portfolio = btc*k + cash
 
         if i == -1 and cash == 0:
             trading_history.loc[counter, 'sale'] = k
             trading_history.loc[counter, 'fee'] = btc*(1-fee)*k
             cash = (btc*k) * fee
             btc = 0
-            portfolio = btc*k + cash
 
         counter += 1
 
