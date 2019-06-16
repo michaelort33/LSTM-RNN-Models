@@ -91,8 +91,8 @@ def train_model_2(x, y):
 # train_model_2(bin_train_x_sc, bin_train_bins_neural)
 
 # bin classifier
-model1 = load_model('../trainer/bin_predictor.h5')
-model2 = load_model('../trainer/bin_predictor_2.h5')
+model1 = load_model('bin_predictor.h5')
+model2 = load_model('bin_predictor_2.h5')
 
 # get test data
 bin_test_x, bin_test_y = prep_x_and_y(test_data)
