@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e7ade727-fd30-4a6a-85da-189242a88303" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_lstm.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_lstm.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +12,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_lstm.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="270">
@@ -25,11 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/neural_classifier.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
-              <caret line="141" lean-forward="true" selection-start-line="141" selection-end-line="141" />
+            <state relative-caret-position="412">
+              <caret line="92" column="16" lean-forward="true" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="16" />
               <folding>
                 <element signature="e#1#36#0" expanded="true" />
               </folding>
@@ -140,9 +139,9 @@
         <option value="$PROJECT_DIR$/prep_data_functions.py" />
         <option value="$PROJECT_DIR$/nerual_classifier2.py" />
         <option value="$PROJECT_DIR$/my_backtester.py" />
-        <option value="$PROJECT_DIR$/neural_classifier.py" />
         <option value="$PROJECT_DIR$/read_data.py" />
         <option value="$PROJECT_DIR$/neural_lstm.py" />
+        <option value="$PROJECT_DIR$/neural_classifier.py" />
       </list>
     </option>
   </component>
@@ -339,7 +338,21 @@
       <option name="project" value="LOCAL" />
       <updated>1560635045167</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added new classifier to neural classifier">
+      <created>1560635272079</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1560635272079</updated>
+    </task>
+    <task id="LOCAL-00008" summary="added new classifier to neural classifier">
+      <created>1560644282052</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1560644282052</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
@@ -508,22 +521,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neural_classifier.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="141" lean-forward="true" selection-start-line="141" selection-end-line="141" />
-          <folding>
-            <element signature="e#1#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/neural_lstm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="57" selection-start-line="57" selection-end-line="57" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_classifier.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="412">
+          <caret line="92" column="16" lean-forward="true" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="16" />
+          <folding>
+            <element signature="e#1#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
